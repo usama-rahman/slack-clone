@@ -1,5 +1,7 @@
+import { AuthScreen } from "@/features/auth/components/auth-screen";
+
 function Home() {
-  return <h1> hello world</h1>;
+  return <AuthScreen />;
 }
 
 export default Home;
