@@ -11,7 +11,7 @@ const schema = defineSchema({
   }),
   members: defineTable({
     userId: v.id('users'),
-    workspaceId: v.id('workspace'),
+    workspaceId: v.id('workspaces'),
     role: v.union(v.literal('admin'), v.literal('member')),
   })
     .index('by_user_id', ['userId'])

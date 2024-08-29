@@ -7,10 +7,9 @@ const generateCode = () => {
     {
       length: 6,
     },
-    () => {
-      '0123456789qwertyuioplkjhgfdsazxcvbnm'[Math.floor(Math.random() * 36)];
-    },
-  ).join();
+    () =>
+      '0123456789qwertyuioplkjhgfdsazxcvbnm'[Math.floor(Math.random() * 36)],
+  ).join('');
 
   return code;
 };
@@ -36,7 +35,7 @@ export const create = mutation({
 
     await ctx.db.insert('members', {
       userId,
-      workspaceId: workspaceId as any,
+      workspaceId,
       role: 'admin',
     });
 
