@@ -73,13 +73,16 @@ export const PreferencesModal = ({
                   maxLength={80}
                   placeholder="workspace name e.g. 'Work', 'Personal', 'Home' "
                 />
+
                 <DialogFooter>
                   <DialogClose asChild>
-                    <Button variant="outline" disabled={isUpdatingWorkspace}>
-                      Cancel
-                    </Button>
+                    <div>
+                      <Button variant="outline" disabled={isUpdatingWorkspace}>
+                        Cancel
+                      </Button>
 
-                    <Button disabled={isUpdatingWorkspace}>Save</Button>
+                      <Button disabled={isUpdatingWorkspace}>Save</Button>
+                    </div>
                   </DialogClose>
                 </DialogFooter>
               </form>
