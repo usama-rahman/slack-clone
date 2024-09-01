@@ -1,4 +1,9 @@
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
+
+import { Doc } from "../../../../convex/_generated/dataModel";
+
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,15 +11,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Doc } from '../../../../convex/_generated/dataModel';
-import { ChevronDown, ListFilter, SquarePen } from 'lucide-react';
-import { Hint } from '@/components/hint';
-import { PreferencesModal } from './preferences-modal';
-import { useState } from 'react';
+} from "@/components/ui/dropdown-menu";
+import { Hint } from "@/components/hint";
+
+import { PreferencesModal } from "./preferences-modal";
+import { InviteModal } from "./invite-modal";
 
 interface WorkspaceHeaderProps {
-  workspace: Doc<'workspaces'>;
+  workspace: Doc<"workspaces">;
   isAdmin: boolean;
 }
 
@@ -23,9 +27,17 @@ export const WorkspaceHeader = ({
   isAdmin,
 }: WorkspaceHeaderProps) => {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   return (
     <>
+      <InviteModal
+        open={inviteOpen}
+        setOpen={setInviteOpen}
+        name={workspace.name}
+        joinCode={workspace.joinCode}
+      />
+
       <PreferencesModal
         open={preferencesOpen}
         setOpen={setPreferencesOpen}
@@ -63,7 +75,7 @@ export const WorkspaceHeader = ({
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem
-                  onClick={() => {}}
+                  onClick={() => setInviteOpen(true)}
                   className="cursor-pointer py-2"
                 >
                   Invite people to {workspace.name}
