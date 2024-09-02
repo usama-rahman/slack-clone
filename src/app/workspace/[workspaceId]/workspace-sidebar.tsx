@@ -7,19 +7,21 @@ import {
 } from "lucide-react";
 
 import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
-import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useChannelId } from "@/hooks/use-channel-id";
 
 import { WorkspaceHeader } from "./workspace-header";
-import { SideberItem } from "./sidebar-item";
+import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
 
 export const WorkspaceSidebar = () => {
+  const channelId = useChannelId();
   const workspaceId = useWorkspaceId();
 
   const [_open, setOpen] = useCreateChannelModal();
@@ -37,6 +39,7 @@ export const WorkspaceSidebar = () => {
     workspaceId,
   });
 
+  // Render loading state while fetching workspace and member data
   if (workspaceLoading || memberLoading) {
     return (
       <div className="flex h-full flex-col items-center justify-center bg-[#5E2C5f]">
@@ -45,6 +48,7 @@ export const WorkspaceSidebar = () => {
     );
   }
 
+  // Render error state if workspace or member data is not available
   if (!workspace || !member) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-y-2 bg-[#5E2C5f]">
@@ -56,17 +60,20 @@ export const WorkspaceSidebar = () => {
 
   return (
     <div className="flex h-full flex-col bg-[#5E2C5f]">
+      {/* Workspace header component */}
       <WorkspaceHeader
         workspace={workspace}
         isAdmin={member.role === "admin"}
       />
 
+      {/* Fixed sidebar items */}
       <div className="mt-3 flex flex-col px-2">
-        <SideberItem label="Threads" icon={MessageSquareText} id="threads" />
+        <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />
 
-        <SideberItem label="Draft & sent" icon={SendHorizonal} id="drafts" />
+        <SidebarItem label="Draft & sent" icon={SendHorizonal} id="drafts" />
       </div>
 
+      {/* Channels section */}
       <WorkspaceSection
         label="Channels"
         hint="New channel"
@@ -78,21 +85,25 @@ export const WorkspaceSidebar = () => {
             : undefined
         }
       >
+        {/* Render channel list */}
         {channels?.map((item) => (
-          <SideberItem
+          <SidebarItem
             key={item._id}
             icon={HashIcon}
             label={item.name}
             id={item._id}
+            variant={channelId === item._id ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
 
+      {/* Direct Messages section */}
       <WorkspaceSection
         label="Direct Messages"
         hint="New channel"
         onNew={() => {}}
       >
+        {/* Render member list */}
         {members?.map((item) => (
           <UserItem
             key={item._id}
