@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { TrashIcon } from "lucide-react";
+import { toast } from "sonner";
 
-import { TrashIcon } from 'lucide-react';
-import { toast } from 'sonner';
-
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,13 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
-import { useRemoveWorkspace } from '@/features/workspaces/api/use-remove-workspace';
-import { useUpdateWorkSpace } from '@/features/workspaces/api/use-update-workspace';
+import { useRemoveWorkspace } from "@/features/workspaces/api/use-remove-workspace";
+import { useUpdateWorkSpace } from "@/features/workspaces/api/use-update-workspace";
 
-import { useWorkspaceId } from '@/hooks/use-workspace-id';
-import { useConfirm } from '@/hooks/use-confirm';
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface PreferencesModalProps {
   open: boolean;
@@ -28,6 +27,12 @@ interface PreferencesModalProps {
   initialValue: string;
 }
 
+/**
+ * PreferencesModal Component
+ *
+ * This component renders a modal for managing workspace preferences.
+ * It allows users to edit the workspace name and delete the workspace.
+ */
 export const PreferencesModal = ({
   open,
   setOpen,
@@ -35,19 +40,25 @@ export const PreferencesModal = ({
 }: PreferencesModalProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
+  // Custom hook for confirmation dialog
   const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure?',
-    'This action is irreversible.',
+    "Are you sure?",
+    "This action is irreversible.",
   );
 
   const [value, setValue] = useState(initialValue);
   const [editOpen, setEditOpen] = useState(false);
 
+  // Hooks for updating and removing workspaces
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =
     useUpdateWorkSpace();
   const { mutate: removeWorkspace, isPending: isRemovingWorkspace } =
     useRemoveWorkspace();
 
+  /**
+   * Handles the removal of the workspace
+   * Confirms with the user before proceeding
+   */
   const handleRemove = async () => {
     const ok = await confirm();
     if (!ok) return;
@@ -56,16 +67,19 @@ export const PreferencesModal = ({
       { id: workspaceId },
       {
         onSuccess: () => {
-          router.replace('/');
-          toast.success('Workspace removed');
+          router.replace("/");
+          toast.success("Workspace removed");
         },
         onError: () => {
-          toast.error('Fail to remove worspace');
+          toast.error("Failed to remove workspace");
         },
       },
     );
   };
 
+  /**
+   * Handles the editing of the workspace name
+   */
   const handleEdit = (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -76,11 +90,11 @@ export const PreferencesModal = ({
       },
       {
         onSuccess: () => {
-          toast.success('Workspace update');
+          toast.success("Workspace updated");
           setEditOpen(false);
         },
         onError: () => {
-          toast.error('Fail to update worspace');
+          toast.error("Failed to update workspace");
         },
       },
     );
@@ -97,6 +111,7 @@ export const PreferencesModal = ({
           </DialogHeader>
 
           <div className="flex flex-col gap-y-2 px-4 pb-4">
+            {/* Nested Dialog for editing workspace name */}
             <Dialog open={editOpen} onOpenChange={setEditOpen}>
               <DialogTrigger asChild>
                 <div className="cursor-pointer rounded-lg border bg-white px-5 py-4 hover:bg-gray-50">
@@ -145,13 +160,13 @@ export const PreferencesModal = ({
               </DialogContent>
             </Dialog>
 
+            {/* Delete workspace button */}
             <button
               disabled={isRemovingWorkspace}
               onClick={handleRemove}
               className="flex cursor-pointer items-center gap-x-2 rounded-lg bg-white px-5 text-rose-600 hover:bg-gray-50"
             >
               <TrashIcon className="size-4" />
-
               <p className="text-sm font-semibold">Delete Workspace</p>
             </button>
           </div>
