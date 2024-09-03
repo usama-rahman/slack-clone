@@ -47,7 +47,8 @@ export const Header = ({ title }: HeaderProps) => {
             </div>
 
             <button>
-              <TrashIcon />
+              <TrashIcon className="size-4" />
+              <p className="text-sm font-semibold"> Delete channel </p>
             </button>
           </div>
         </DialogContent>
