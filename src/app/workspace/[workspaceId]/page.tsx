@@ -70,7 +70,7 @@ const WorkspaceIdPage = () => {
   ]);
 
   // Show loading state
-  if (workspaceLoading || channelsLoading) {
+  if (workspaceLoading || channelsLoading || memberLoading) {
     return (
       <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
         <Loader className="size-6 animate-spin text-muted-foreground" />
@@ -79,7 +79,7 @@ const WorkspaceIdPage = () => {
   }
 
   // Show error if workspace not found
-  if (!workspace) {
+  if (!workspace || !member) {
     return (
       <div className="flex h-full flex-1 flex-col items-center justify-center gap-2">
         <TriangleAlert className="size-6 text-muted-foreground" />

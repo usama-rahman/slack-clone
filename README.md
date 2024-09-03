@@ -8,7 +8,6 @@ This project is a complete Slack clone, aiming to replicate the core functionali
 - Channel-based communication
 - User authentication
 - Responsive design
-- Dark mode support
 
 ## Technologies Used
 
