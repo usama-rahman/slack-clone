@@ -7,7 +7,6 @@ import { Header } from "./Header";
 
 const ChannelIdPage = () => {
   const channelId = useChannelId();
-  // Channel header component 6:07
 
   const { data: channel, isLoading: channelLoading } = useGetChannel({
     id: channelId,

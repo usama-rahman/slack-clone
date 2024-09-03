@@ -3,13 +3,12 @@ import { FaChevronDown } from "react-icons/fa";
 
 import {
   Dialog,
-  DialogDescription,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { TrashIcon } from "lucide-react";
 
 interface HeaderProps {
   title: string;
@@ -25,7 +24,7 @@ export const Header = ({ title }: HeaderProps) => {
             className="w-auto overflow-hidden px-2 text-lg font-semibold"
             size="sm"
           >
-            <span> # {title} </span>
+            <span className="truncate"> # {title} </span>
             <FaChevronDown className="ml-2 size-2.5" />
           </Button>
         </DialogTrigger>
@@ -46,6 +45,10 @@ export const Header = ({ title }: HeaderProps) => {
 
               <p className="text-sm"> # {title} </p>
             </div>
+
+            <button>
+              <TrashIcon />
+            </button>
           </div>
         </DialogContent>
       </Dialog>
