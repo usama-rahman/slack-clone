@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useMutation } from 'convex/react';
+import { useCallback, useMemo, useState } from "react";
+import { useMutation } from "convex/react";
 
-import { api } from '../../../../convex/_generated/api';
-import { Id } from '../../../../convex/_generated/dataModel';
+import { api } from "../../../../convex/_generated/api";
+import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { id: Id<'workspaces'> };
-type ResponseType = Id<'workspaces'> | null;
+type RequestType = { id: Id<"workspaces"> };
+type ResponseType = Id<"workspaces"> | null;
 
 type Options = {
   onSuccess?: (data: ResponseType) => void;
@@ -19,13 +19,13 @@ export const useRemoveWorkspace = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const [status, setStatus] = useState<
-    'success' | 'error' | 'settled' | 'pending' | null
+    "success" | "error" | "settled" | "pending" | null
   >(null);
 
-  const isPending = useMemo(() => status === 'pending', [status]);
-  const isSuccess = useMemo(() => status === 'success', [status]);
-  const isError = useMemo(() => status === 'error', [status]);
-  const isSettled = useMemo(() => status === 'settled', [status]);
+  const isPending = useMemo(() => status === "pending", [status]);
+  const isSuccess = useMemo(() => status === "success", [status]);
+  const isError = useMemo(() => status === "error", [status]);
+  const isSettled = useMemo(() => status === "settled", [status]);
 
   const mutation = useMutation(api.workspaces.remove);
 
@@ -34,14 +34,14 @@ export const useRemoveWorkspace = () => {
       try {
         setData(null);
         setError(null);
-        setStatus('pending');
+        setStatus("pending");
 
         const response = await mutation(values);
         Options?.onSuccess?.(response);
 
         return response;
       } catch (error) {
-        setStatus('error');
+        setStatus("error");
 
         Options?.onError?.(error as Error);
 
@@ -49,7 +49,7 @@ export const useRemoveWorkspace = () => {
           throw error;
         }
       } finally {
-        setStatus('settled');
+        setStatus("settled");
         Options?.onSettled?.();
       }
     },

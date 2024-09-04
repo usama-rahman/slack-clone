@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
-import { IconType } from 'react-icons/lib';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
+import { IconType } from "react-icons/lib";
 
 interface SidebarButtonProps {
   icon: LucideIcon | IconType;
@@ -19,8 +19,8 @@ export const SidebarButton = ({
       <Button
         variant="transparent"
         className={cn(
-          'size-9 p-2 group-hover:bg-accent/20',
-          isActive && 'bg-accent/20',
+          "size-9 p-2 group-hover:bg-accent/20",
+          isActive && "bg-accent/20",
         )}
       >
         <Icon className="size-5 text-white transition-all group-hover:scale-110" />

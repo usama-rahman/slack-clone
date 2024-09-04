@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { SignInFlow } from '../types';
-import { TriangleAlert } from 'lucide-react';
-import { useAuthActions } from '@convex-dev/auth/react';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { SignInFlow } from "../types";
+import { TriangleAlert } from "lucide-react";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 interface SignUpCardProps {
   setState: (state: SignInFlow) => void;
@@ -22,31 +22,31 @@ interface SignUpCardProps {
 export default function SignUpCard({ setState }: SignUpCardProps) {
   const { signIn } = useAuthActions();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
   const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError('Password do not match');
+      setError("Password do not match");
       return;
     }
 
     setPending(true);
 
-    signIn('password', { name, email, password, flow: 'signUp' })
+    signIn("password", { name, email, password, flow: "signUp" })
       .catch(() => {
-        setError('Invalid Email or Password');
+        setError("Invalid Email or Password");
       })
       .finally(() => setPending(false));
   };
 
-  const onProviderSignUp = (value: 'github' | 'google') => {
+  const onProviderSignUp = (value: "github" | "google") => {
     setPending(true);
     signIn(value).finally(() => {
       setPending(false);
@@ -116,7 +116,7 @@ export default function SignUpCard({ setState }: SignUpCardProps) {
         <div className="flex flex-col gap-y-2.5">
           <Button
             disabled={pending}
-            onClick={() => onProviderSignUp('google')}
+            onClick={() => onProviderSignUp("google")}
             variant="outline"
             size="lg"
             className="relative w-full"
@@ -127,7 +127,7 @@ export default function SignUpCard({ setState }: SignUpCardProps) {
 
           <Button
             disabled={pending}
-            onClick={() => onProviderSignUp('github')}
+            onClick={() => onProviderSignUp("github")}
             variant="outline"
             size="lg"
             className="relative w-full"
@@ -138,9 +138,9 @@ export default function SignUpCard({ setState }: SignUpCardProps) {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <span
-            onClick={() => setState('signIn')}
+            onClick={() => setState("signIn")}
             className="cursor-pointer text-sky-700 hover:underline"
           >
             Sign up

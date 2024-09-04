@@ -1,18 +1,18 @@
-import { Loader, Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Loader, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-import { useGetWorkspace } from '@/features/workspaces/api/use-get-workspace';
-import useGetWorkspaces from '@/features/workspaces/api/use-get-workspaces';
-import { useCreateWorkSpaceModal } from '@/features/workspaces/store/use-create-workspace-modal';
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import useGetWorkspaces from "@/features/workspaces/api/use-get-workspaces";
+import { useCreateWorkSpaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 
-import { Button } from '@/components/ui/button';
-import { useWorkspaceId } from '@/hooks/use-workspace-id';
+import { Button } from "@/components/ui/button";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
@@ -56,9 +56,15 @@ export const WorkspaceSwitcher = () => {
             onClick={() => router.push(`/workspace/${workspace._id}`)}
           >
             <div className="relative mr-2 flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#616061] text-xl font-semibold text-white">
-              {workspace.name.charAt(0).toUpperCase()}
+              {"name" in workspace && typeof workspace.name === "string"
+                ? workspace.name.charAt(0).toUpperCase()
+                : ""}
             </div>
-            <p className="truncate">{workspace.name}</p>
+            <p className="truncate">
+              {"name" in workspace && typeof workspace.name === "string"
+                ? workspace.name
+                : ""}
+            </p>
           </DropdownMenuItem>
         ))}
 
