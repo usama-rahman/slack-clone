@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { Hint } from "./hint";
 import { Delta, Op } from "quill/core";
 import { cn } from "@/lib/utils";
+import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
   image: File | null;
@@ -123,6 +124,12 @@ const Editor = ({
     }
   };
 
+  const onEmojiSelect = (emoji: any) => {
+    const quill = quillRef.current;
+
+    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+  };
+
   const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
   return (
@@ -144,16 +151,11 @@ const Editor = ({
             </Button>
           </Hint>
 
-          <Hint label="Emoji">
-            <Button
-              disabled={disable}
-              size="iconSm"
-              variant="ghost"
-              onClick={() => {}}
-            >
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
+            <Button disabled={disable} size="iconSm" variant="ghost">
               <Smile className="size-4" />
             </Button>
-          </Hint>
+          </EmojiPopover>
 
           {variant === "create" && (
             <Hint label="Image">
@@ -206,11 +208,18 @@ const Editor = ({
         </div>
       </div>
 
-      <div className="flex justify-end p-2 text-[10px] text-muted-foreground">
-        <p>
-          <strong>Shift + Return</strong> to add a new line
-        </p>
-      </div>
+      {variant === "create" && (
+        <div
+          className={cn(
+            "flex justify-end p-2 text-[10px] text-muted-foreground opacity-0",
+            !isEmpty && "opacity-100",
+          )}
+        >
+          <p>
+            <strong>Shift + Return</strong> to add a new line
+          </p>
+        </div>
+      )}
     </div>
   );
 };
