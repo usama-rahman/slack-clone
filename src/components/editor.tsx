@@ -1,18 +1,18 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 import { PiTextAa } from "react-icons/pi";
 import { MdSend } from "react-icons/md";
 import { ImageIcon, Smile, XIcon } from "lucide-react";
+import { EmojiPopover } from "./emoji-popover";
 
 import "quill/dist/quill.snow.css";
 import Quill, { QuillOptions } from "quill";
 
+import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Hint } from "./hint";
 import { Delta, Op } from "quill/core";
-import { cn } from "@/lib/utils";
-import { EmojiPopover } from "./emoji-popover";
-import Image from "next/image";
 
 type EditorValue = {
   image: File | null;
@@ -72,7 +72,18 @@ const Editor = ({
             enter: {
               key: "Enter",
               handler: () => {
-                return;
+                const text = quill.getText();
+                const addedImage = imageElementRef.current?.files?.[0] || null;
+
+                const isEmpty =
+                  !addedImage &&
+                  text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+
+                if (isEmpty) return;
+
+                const body = JSON.stringify(quill.getContents());
+
+                submitRef.current?.({ body, image: addedImage });
               },
             },
             shift_enter: {
@@ -133,7 +144,7 @@ const Editor = ({
     quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
   };
 
-  const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
+  const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
 
   return (
     <div className="flex flex-col">
@@ -145,7 +156,12 @@ const Editor = ({
         className="hidden"
       />
 
-      <div className="flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white transition focus-within:border-slate-300 focus-within:shadow-sm">
+      <div
+        className={cn(
+          "flex flex-col overflow-hidden rounded-md border border-slate-200 bg-white transition focus-within:border-slate-300 focus-within:shadow-sm",
+          disable && "opacity-50",
+        )}
+      >
         <div ref={containerRef} className="ql-custom h-full" />
 
         {!!image && (
@@ -212,13 +228,18 @@ const Editor = ({
                 disabled={disable}
                 variant="outline"
                 size="sm"
-                onClick={() => {}}
+                onClick={onCancel}
               >
                 Cancle
               </Button>
               <Button
                 disabled={disable || isEmpty}
-                onClick={() => {}}
+                onClick={() => {
+                  onSubmit({
+                    body: JSON.stringify(quillRef.current?.getContents()),
+                    image,
+                  });
+                }}
                 size="sm"
                 className="hover:[#007a5a]/80 bg-[#007a5a] text-white"
               >
@@ -230,6 +251,12 @@ const Editor = ({
           {variant === "create" && (
             <Button
               disabled={disable || isEmpty}
+              onClick={() => {
+                onSubmit({
+                  body: JSON.stringify(quillRef.current?.getContents()),
+                  image,
+                });
+              }}
               size="iconSm"
               className={cn(
                 "ml-auto",
