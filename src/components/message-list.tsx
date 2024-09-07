@@ -1,4 +1,5 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+
 import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 import { Message } from "./message";
 
@@ -24,9 +25,6 @@ const formatDateLable = (dateStr: string) => {
 
   return format(date, "EEEE, MMMM, D");
 };
-
-{
-}
 
 export const MessageList = ({
   memberName,
