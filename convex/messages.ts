@@ -36,7 +36,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
 
   return {
     count: messages.length,
-    image: lastMessage,
+    image: lastMessageUser?.image, // Change this line
     timestamp: lastMessage._creationTime,
   };
 };
@@ -165,7 +165,7 @@ export const get = query({
               reactions: reactionsWithMemberIdProperty,
               threadCount: thread.count,
               threadImage: thread.image,
-              threadTimestapm: thread.timestamp,
+              threadTimestamp: thread.timestamp,
             };
           }),
         )
@@ -218,7 +218,7 @@ export const create = mutation({
       conversationId: _conversationId,
       workspaceId: args.workspaceId,
       parentMessageId: args.parentMessageId,
-      updateAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
     return messagesId;
