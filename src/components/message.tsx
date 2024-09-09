@@ -123,7 +123,7 @@ export const Message = ({
         },
         onError: () => {
           toast.error("Failed to update message");
-          return; // Add this line
+          return;
         },
       },
     );
@@ -136,13 +136,13 @@ export const Message = ({
 
         <div
           className={cn(
-            "group relative flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60",
+            "group relative flex flex-col hover:bg-gray-100/60",
             isEditing && "bg-[#f2c74433]",
             isRemovingMessage &&
               "origin-bottom scale-y-0 transform bg-rose-500/50 transition-all duration-200",
           )}
         >
-          <div className="flex items-start gap-2">
+          <div className="flex items-start">
             <Hint label={formatFullTime(new Date(createdAt))}>
               <button className="w-[40px] text-center text-xs leading-[22px] text-muted-foreground opacity-0 hover:underline group-hover:opacity-100">
                 {format(new Date(createdAt), "hh:mm")}

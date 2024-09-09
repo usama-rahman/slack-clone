@@ -1,12 +1,11 @@
 import Quill from "quill";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface RendererProps {
   value: string;
 }
 
 const Renderer = ({ value }: RendererProps) => {
-  const [isEmpty, setIsEmpty] = useState();
   const rendererRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,13 +22,9 @@ const Renderer = ({ value }: RendererProps) => {
     const contents = JSON.parse(value);
     quill.setContents(contents);
 
-    const isEmpty =
-      quill
-        .getText()
-        .replace(/<(.|\n)*?>/g, "")
-        .trim().length === 0;
-
-    container.innerHTML = quill.root.innerHTML;
+    // Remove empty paragraphs
+    const cleanHtml = quill.root.innerHTML.replace(/<p><br><\/p>$/g, "");
+    container.innerHTML = cleanHtml;
 
     return () => {
       if (container) {
@@ -37,8 +32,6 @@ const Renderer = ({ value }: RendererProps) => {
       }
     };
   }, [value]);
-
-  if (isEmpty) return;
 
   return <div className="ql-editor ql-renderer" ref={rendererRef}></div>;
 };

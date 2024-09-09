@@ -11,7 +11,7 @@ interface UseGetMessagesProps {
 export type GetMessagesReturnType =
   (typeof api.messages.get._returnType)["page"];
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 3;
 
 export const useGetMessages = ({
   channelId,
