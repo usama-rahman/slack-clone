@@ -9,7 +9,7 @@ interface ToolbarProps {
   handleEdit: () => void;
   handleThread: () => void;
   handleDelete: () => void;
-  handleReaction: (value: boolean) => void;
+  handleReaction: (value: string) => void;
   hideThreadButton?: boolean;
 }
 
