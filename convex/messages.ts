@@ -89,13 +89,17 @@ export const remove = mutation({
 
     const member = await getMember(ctx, message.workspaceId, userId);
 
-    if (!member || member._id || message.memberId) {
+    if (!member || member._id !== message.memberId) {
       throw new Error("Unauthorized");
     }
 
-    await ctx.db.delete(args.id);
-
-    return args.id;
+    try {
+      await ctx.db.delete(args.id);
+      return args.id;
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      throw new Error("Failed to delete message");
+    }
   },
 });
 
@@ -120,7 +124,7 @@ export const update = mutation({
 
     const member = await getMember(ctx, message.workspaceId, userId);
 
-    if (!member || member._id || message.memberId) {
+    if (!member || member._id !== message.memberId) {
       throw new Error("Unauthorized");
     }
 
@@ -282,7 +286,6 @@ export const create = mutation({
       conversationId: _conversationId,
       workspaceId: args.workspaceId,
       parentMessageId: args.parentMessageId,
-      updatedAt: Date.now(),
     });
 
     return messagesId;

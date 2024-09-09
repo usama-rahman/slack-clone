@@ -91,7 +91,7 @@ body,
 }
 
 .ql-editor {
-  line-height: 22px !important;
+  /* line-height: 22px !important; */
   padding: 8px 12px !important;
   color: #1d1c1d !important;
   font-weight: 400 !important;

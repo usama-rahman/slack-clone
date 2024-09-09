@@ -118,11 +118,12 @@ export const Message = ({
       { id, body },
       {
         onSuccess: () => {
-          toast.success("Message update");
+          toast.success("Message updated");
           setEditingId(null);
         },
         onError: () => {
           toast.error("Failed to update message");
+          return; // Add this line
         },
       },
     );
@@ -163,7 +164,7 @@ export const Message = ({
                 <Renderer value={body} />
                 <Thumbnail url={images} />
 
-                {updatedAt ? (
+                {updatedAt && updatedAt !== createdAt ? (
                   <span className="text-xs text-muted-foreground">
                     (edited)
                   </span>
@@ -243,7 +244,7 @@ export const Message = ({
 
               <Renderer value={body} />
 
-              {updatedAt ? (
+              {updatedAt && updatedAt !== createdAt ? (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}
 

@@ -28,7 +28,7 @@ const formatDateLable = (dateStr: string) => {
   if (isToday(date)) return "Today";
   if (isYesterday(date)) return "Yesterday";
 
-  return format(date, "EEEE, MMMM, D");
+  return format(date, "EEEE, MMMM, d");
 };
 
 export const MessageList = ({
