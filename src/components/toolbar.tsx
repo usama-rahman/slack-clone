@@ -23,42 +23,56 @@ export const Toolbar = ({
   hideThreadButton,
 }: ToolbarProps) => {
   return (
-    <div className="absolute right-5 top-0">
+    <div className="absolute right-5 top-0 z-10">
       <div className="rounded-md border bg-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
         <EmojiPopover
           hint="Add reaction"
           onEmojiSelect={(emoji) => handleReaction(emoji.native)}
         >
-          <Button variant="ghost" size="iconSm" disabled={isPending}>
-            <Smile size={4} />
+          <Button variant="ghost" size="icon" disabled={isPending}>
+            <Smile className="h-4 w-4" />
           </Button>
         </EmojiPopover>
 
         {!hideThreadButton && (
           <Hint label="Reply in thread">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
-              <MessageSquareTextIcon size={4} />
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isPending}
+              onClick={handleThread}
+            >
+              <MessageSquareTextIcon className="h-4 w-4" />
             </Button>
           </Hint>
         )}
 
         {isAuthor && (
           <Hint label="Edit message">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
-              <Pencil size={4} />
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isPending}
+              onClick={handleEdit}
+            >
+              <Pencil className="h-4 w-4" />
             </Button>
           </Hint>
         )}
 
         {isAuthor && (
           <Hint label="Delete message">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
-              <Trash size={4} />
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isPending}
+              onClick={handleDelete}
+            >
+              <Trash className="h-4 w-4" />
             </Button>
           </Hint>
         )}
       </div>
-      Toolbar
     </div>
   );
 };
