@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Thumbnail } from "./thumbnail";
 import { Toolbar } from "./toolbar";
 import { Reactions } from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 
@@ -70,6 +71,8 @@ export const Message = ({
   threadImage,
   threadTimestamp,
 }: MessageProps) => {
+  const { parentMessageId, onOpenMessage, onClose } = usePanel();
+
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message",
     "Are you sure uou want to delete this message? This cannot be undone. ",
@@ -180,7 +183,7 @@ export const Message = ({
               isAuthor={isAuthor}
               isPending={isPending}
               handleEdit={() => setEditingId(id)}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               handleDelete={handleRemove}
               handleReaction={handleReaction}
               hideThreadButton={hideThreadButton}
@@ -258,7 +261,7 @@ export const Message = ({
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleRemove}
             handleReaction={handleReaction}
             hideThreadButton={hideThreadButton}
