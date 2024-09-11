@@ -27,7 +27,7 @@ interface MessageProps {
   id: Id<"messages">;
   memberId: Id<"members">;
   authorImage?: string;
-  authorName: string;
+  authorName?: string;
   isAuthor: boolean;
   reactions: Array<
     Omit<Doc<"reactions">, "memberId"> & {
@@ -193,6 +193,7 @@ export const Message = ({
       </>
     );
   }
+
   const avaterFallback = authorName.charAt(0).toUpperCase();
 
   return (
