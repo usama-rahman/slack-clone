@@ -67,7 +67,7 @@ export const MessageList = ({
   );
 
   return (
-    <div className="messages-scrollbar flex flex-1 flex-col-reverse overflow-auto">
+    <div className="messages-scrollbar flex flex-1 flex-col-reverse overflow-y-auto pb-4">
       {Object.entries(groupedMessage || {}).map(([dateKey, messages]) => (
         <div key={dateKey}>
           <div className="relative my-2 text-center">
