@@ -210,7 +210,7 @@ export const Message = ({
       >
         <div className="flex items-start gap-2">
           <button>
-            <Avatar className="mr-1 size-5">
+            <Avatar>
               <AvatarImage src={authorImage} />
 
               <AvatarFallback>{avaterFallback}</AvatarFallback>
