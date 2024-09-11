@@ -7,6 +7,8 @@ import { useMemberId } from "@/hooks/use-member-id";
 
 import { Id } from "../../../../../../convex/_generated/dataModel";
 import { Header } from "./header";
+import { ChatInput } from "./chat-input";
+import { MessageList } from "@/components/message-list";
 
 interface ConversationProps {
   id: Id<"conversations">;
@@ -36,6 +38,21 @@ export const Conversation = ({ id }: ConversationProps) => {
         memberName={member?.user.name}
         memberImage={member?.user.image}
         onClick={() => {}}
+      />
+
+      <MessageList
+        data={results}
+        variant="conversation"
+        memberImage={member?.user.image}
+        memberName={member?.user.name}
+        loadMore={loadMore}
+        isLoadingMore={status === "LoadingMore"}
+        canLoadMore={status === "CanLoadMore"}
+      />
+
+      <ChatInput
+        conversationId={id}
+        placeholder={`Message ${member?.user.name}`}
       />
     </div>
   );
