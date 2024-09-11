@@ -1,18 +1,20 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+import { useEffect, useMemo } from "react";
 import { Hash, Loader } from "lucide-react";
 import VerificationInput from "react-verification-input";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 import { useJoin } from "@/features/workspaces/api/use-join";
 import { useGetWorkspaceInfo } from "@/features/workspaces/api/use-get-workspace-info";
 
-import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo } from "react";
 
 const JoinPage = () => {
   const router = useRouter();
