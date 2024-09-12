@@ -1,15 +1,16 @@
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-import { PiTextAa } from "react-icons/pi";
-import { MdSend } from "react-icons/md";
-import { ImageIcon, Smile, XIcon } from "lucide-react";
-import { EmojiPopover } from "./emoji-popover";
-
 import "quill/dist/quill.snow.css";
 import Quill, { QuillOptions } from "quill";
 
+import { PiTextAa } from "react-icons/pi";
+import { MdSend } from "react-icons/md";
+import { ImageIcon, Smile, XIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+
+import { EmojiPopover } from "./emoji-popover";
 import { Button } from "./ui/button";
 import { Hint } from "./hint";
 import { Delta, Op } from "quill/core";
