@@ -1,13 +1,18 @@
 import { AlertTriangle, Loader, MailIcon, XIcon } from "lucide-react";
-
-import { useGetMember } from "../api/use-get-member";
+import Link from "next/link";
 
 import { Id } from "../../../../convex/_generated/dataModel";
 
+import { useGetMember } from "../api/use-get-member";
+import { useUpdateMember } from "../api/use-update-member";
+import { useRemoveMember } from "../api/use-remove-member";
+import { useCurrentMember } from "../api/use-current-member";
+
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface ProfileProps {
   memberId: Id<"members">;
@@ -15,11 +20,20 @@ interface ProfileProps {
 }
 
 export const Profile = ({ memberId, onClose }: ProfileProps) => {
+  const workspaceId = useWorkspaceId();
+
   const { data: member, isLoading: isMemberLoading } = useGetMember({
     id: memberId,
   });
 
-  if (isMemberLoading) {
+  const { data: currentMember, isLoading: isLoadingCurrentMember } =
+    useCurrentMember({ workspaceId });
+  const { mutate: updateMember, isPending: isUpdateingMember } =
+    useUpdateMember();
+  const { mutate: removeMember, isPending: isRemovingMember } =
+    useRemoveMember();
+
+  if (isMemberLoading || isLoadingCurrentMember) {
     return (
       <div className="flex h-full flex-col">
         <div className="flex h-[49px] items-center justify-between border-b px-4">
