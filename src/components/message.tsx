@@ -9,15 +9,16 @@ import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 
 import { useConfirm } from "@/hooks/use-confirm";
+import { usePanel } from "@/hooks/use-panel";
 
 import { cn } from "@/lib/utils";
 
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Hint } from "./hint";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Thumbnail } from "./thumbnail";
 import { Toolbar } from "./toolbar";
 import { Reactions } from "./reactions";
-import { usePanel } from "@/hooks/use-panel";
+import { ThreadBar } from "./thread-bar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 
@@ -45,6 +46,7 @@ interface MessageProps {
   hideThreadButton?: boolean;
   threadCount?: number;
   threadImage?: string;
+  threadName?: string;
   threadTimestamp?: number;
 }
 
@@ -70,6 +72,7 @@ export const Message = ({
   threadCount,
   threadImage,
   threadTimestamp,
+  threadName,
 }: MessageProps) => {
   const { parentMessageId, onOpenMessage, onClose } = usePanel();
 
@@ -174,6 +177,14 @@ export const Message = ({
                 ) : null}
 
                 <Reactions data={reactions} onChange={handleReaction} />
+
+                <ThreadBar
+                  threadCount={threadCount}
+                  threadImage={threadImage}
+                  timestamp={threadTimestamp}
+                  threadName={threadName}
+                  onClick={() => onOpenMessage(id)}
+                />
               </div>
             )}
           </div>
@@ -253,6 +264,14 @@ export const Message = ({
               ) : null}
 
               <Reactions data={reactions} onChange={handleReaction} />
+
+              <ThreadBar
+                threadCount={threadCount}
+                threadImage={threadImage}
+                timestamp={threadTimestamp}
+                threadName={threadName}
+                onClick={() => onOpenMessage(id)}
+              />
             </div>
           )}
         </div>
