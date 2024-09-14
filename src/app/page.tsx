@@ -1,10 +1,12 @@
 "use client";
 
-import UserButton from "@/features/auth/components/user-button";
+import { useEffect, useMemo } from "react";
+
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import useGetWorkspaces from "@/features/workspaces/api/use-get-workspaces";
 import { useCreateWorkSpaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
 
 function Home() {
   const router = useRouter();
@@ -26,8 +28,8 @@ function Home() {
   }, [workspacesId, isLoading, open, setOpen, router]);
 
   return (
-    <div>
-      <UserButton />
+    <div className="flex h-full items-center justify-center">
+      <Loader className="size-6 animate-spin text-muted-foreground" />
     </div>
   );
 }
